@@ -1,0 +1,14 @@
+version: '3.8'
+
+services:
+  keycloak:
+    image: quay.io/keycloak/keycloak
+    ports:
+      - "8080:8080"
+    volumes:
+      - /data/keycloak:
+    environment:
+      KEYCLOAK_USER: admin
+      KEYCLOAK_PASSWORD: admin
+    command: 
+    container_name: keycloak
