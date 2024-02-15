@@ -1,0 +1,24 @@
+---
+- name: Harden Linux System
+  hosts: all
+  become: yes  
+
+  tasks:
+    - name: Set custom login message
+      copy:
+        content: "Welcome to our secure server. Unauthorized access is prohibited."
+        dest: /etc/motd
+      notify: Restart SSH  
+
+    - name: Disable SSH root login
+      lineinfile:
+        path: /etc/ssh/sshd_config
+        regexp: '^PermitRootLogin'
+        line: 'PermitRootLogin no'
+      notify: Restart SSH  
+
+  handlers:
+    - name: Restart SSH
+      service:
+        name: sshd
+        state: restarted
